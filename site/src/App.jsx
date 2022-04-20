@@ -114,6 +114,7 @@ function Components() {
           <td-doc-footer slot="doc-footer"></td-doc-footer>
         </td-doc-content>
       </td-doc-layout>
+      <tdesign-theme-generator />
     </ConfigProvider>
   );
 }
