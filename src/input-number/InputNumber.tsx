@@ -79,7 +79,7 @@ const InputNumber = forwardRef((props: InputNumberProps, ref: React.Ref<HTMLInpu
 
   let decimalValue: number = internalInputValue as number;
   if (typeof internalInputValue === 'string') {
-    decimalValue = Number(numberUtils.strToNumber(internalInputValue)) || 0;
+    decimalValue = numberUtils.strToNumber(internalInputValue) || 0;
   }
 
   const setInputValue = (inputStr: string) => {
@@ -156,7 +156,7 @@ const InputNumber = forwardRef((props: InputNumberProps, ref: React.Ref<HTMLInpu
 
     setInputValue(filteredInputStr.toString());
     if (!checkInput(filteredInputStr)) return;
-    triggerValueUpdate({ type: 'input', value: Number(filteredInputStr), e });
+    triggerValueUpdate({ type: 'input', value: filteredInputStr, e });
   };
 
   const onInternalStep = (action: ChangeContext) => {

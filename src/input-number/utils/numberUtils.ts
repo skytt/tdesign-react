@@ -1,5 +1,3 @@
-import { InputNumberInternalValue } from "../InputNumber";
-
 export const isInvalidNumber = (number: number | string) => {
   if (typeof number === 'number') {
     return Number.isNaN(number);
@@ -33,7 +31,7 @@ const multiNegative = (s: string) => {
   const m = s.match(/[-]/g);
   return m === null ? false : m.length > 1;
 };
-export const strToNumber = (s: string): InputNumberInternalValue => {
+export const strToNumber = (s: string): number => {
   if (['', undefined].includes(s)) {
     return 0;
   }
@@ -42,5 +40,5 @@ export const strToNumber = (s: string): InputNumberInternalValue => {
     filterVal = filterVal.substr(0, filterVal.length - 1);
   }
 
-  return filterVal
+  return Number(filterVal);
 };
