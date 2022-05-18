@@ -11,6 +11,7 @@ import { TdCalendarProps, ControllerOptions, CalendarCell, CalendarValue } from 
 import { StyledProps } from '../common';
 import { createDateList, createMonthList } from './_util';
 import CheckTag from '../tag/CheckTag';
+import { calendarDefaultProps } from './defaultProps';
 
 export interface CalendarProps extends TdCalendarProps, StyledProps {}
 
@@ -60,27 +61,27 @@ const minYear = 1970; // 最早选择年份
 
 const Calendar: React.FC<CalendarProps> = forwardRef((props, ref: React.MutableRefObject<CalendarMethods>) => {
   const {
-    className = '',
-    style = {},
-    mode: modeFromProps = 'month',
-    value: valueFromProps = null,
-    firstDayOfWeek = 1,
-    format = 'YYYY-MM-DD',
-    range = null,
-    head = null,
-    cell = null,
-    cellAppend = null,
-    week = null,
-    theme = 'full',
+    className,
+    style,
+    mode: modeFromProps,
+    value: valueFromProps,
+    firstDayOfWeek,
+    format,
+    range,
+    head,
+    cell,
+    cellAppend,
+    week,
+    theme,
     controllerConfig,
-    isShowWeekendDefault = true,
-    preventCellContextmenu = false,
+    isShowWeekendDefault,
+    preventCellContextmenu,
     onControllerChange = noop,
     onCellClick = noop,
     onCellDoubleClick = noop,
     onCellRightClick = noop,
     onMonthChange = noop,
-    fillWithZero = false,
+    fillWithZero,
   } = props;
 
   // 组装配置信息
@@ -548,5 +549,8 @@ const Calendar: React.FC<CalendarProps> = forwardRef((props, ref: React.MutableR
     </div>
   );
 });
+
+Calendar.displayName = 'Calendar';
+Calendar.defaultProps = calendarDefaultProps;
 
 export default Calendar;

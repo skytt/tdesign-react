@@ -2,7 +2,7 @@ import React, { useState, useMemo, forwardRef } from 'react';
 import classNames from 'classnames';
 import noop from '../_util/noop';
 import useConfig from '../_util/useConfig';
-import useDefault from '../_util/useDefault';
+import useControlled from '../hooks/useControlled';
 import Select from '../select';
 import InputNumber from '../input-number';
 import { useLocaleReceiver } from '../locale/LocalReceiver';
@@ -15,6 +15,7 @@ import useTotal from './hooks/useTotal';
 import { TdPaginationProps } from './type';
 import { StyledProps } from '../common';
 import { pageSizeValidator } from './validators';
+import { paginationDefaultProps } from './defaultProps';
 
 export type { PageInfo } from './type';
 
@@ -24,23 +25,19 @@ const { Option } = Select;
 
 const Pagination = forwardRef((props: PaginationProps, ref: React.Ref<HTMLDivElement>) => {
   const {
-    defaultCurrent = 1,
-    current: currentFromProps,
-    theme = 'default',
-    size = 'medium',
-    total = 0,
-    defaultPageSize = 10,
-    pageSize: pageSizeFromProps,
-    showPageSize = true,
-    showPageNumber = true,
-    showPreviousAndNextBtn = true,
-    showFirstAndLastPageBtn = false,
-    showJumper = false,
-    disabled = false,
-    foldedMaxPageBtn = 5,
-    maxPageBtn = 10,
-    totalContent = true,
-    pageSizeOptions = [5, 10, 20, 50],
+    theme,
+    size,
+    total,
+    showPageSize,
+    showPageNumber,
+    showPreviousAndNextBtn,
+    showFirstAndLastPageBtn,
+    showJumper,
+    disabled,
+    foldedMaxPageBtn,
+    maxPageBtn,
+    totalContent,
+    pageSizeOptions,
     onChange = noop,
     onCurrentChange,
     onPageSizeChange,
@@ -51,8 +48,8 @@ const Pagination = forwardRef((props: PaginationProps, ref: React.Ref<HTMLDivEle
 
   const [locale, t] = useLocaleReceiver('pagination');
 
-  const [pageSize, setPageSize] = useDefault(pageSizeFromProps, defaultPageSize, onPageSizeChange);
-  const [current, setCurrent] = useDefault(currentFromProps, defaultCurrent, onCurrentChange);
+  const [pageSize, setPageSize] = useControlled(props, 'pageSize', onPageSizeChange);
+  const [current, setCurrent] = useControlled(props, 'current', onCurrentChange);
   const [jumpValue, setJumpValue] = useState(current);
 
   const min = 1;
@@ -230,5 +227,6 @@ const Pagination = forwardRef((props: PaginationProps, ref: React.Ref<HTMLDivEle
 });
 
 Pagination.displayName = 'Pagination';
+Pagination.defaultProps = paginationDefaultProps;
 
 export default Pagination;

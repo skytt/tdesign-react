@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import type { TdTreeSelectProps, TreeSelectValue } from './type';
 import type { StyledProps } from '../common';
 import useConfig from '../_util/useConfig';
-import useDefault from '../_util/useDefault';
+import useControlled from '../hooks/useControlled';
 
 import Tree, { TreeProps } from '../tree';
 import SelectInput, { SelectInputProps } from '../select-input/SelectInput';
@@ -16,6 +16,7 @@ import { useTreeSelectUtils } from './useTreeSelectUtils';
 import { SelectArrow } from './SelectArrow';
 import { useTreeSelectPassThroughProps } from './useTreeSelectPassthoughProps';
 import { useTreeSelectLocale } from './useTreeSelectLocale';
+import { treeSelectDefaultProps } from './defaultProps';
 
 export interface TreeSelectProps extends TdTreeSelectProps, StyledProps {}
 
@@ -39,8 +40,6 @@ const TreeSelect = forwardRef((props: TreeSelectProps, ref: React.Ref<HTMLDivEle
 
   const {
     className,
-    inputValue,
-    defaultInputValue,
     onInputChange,
     readonly,
     disabled,
@@ -63,10 +62,10 @@ const TreeSelect = forwardRef((props: TreeSelectProps, ref: React.Ref<HTMLDivEle
   } = props;
 
   const selectInputProps = useTreeSelectPassThroughProps(props);
-  const [value, onChange] = useDefault(props.value, props.defaultValue ?? multiple ? [] : null, props.onChange);
-  const [popupVisible, setPopupVisible] = useDefault(props.popupVisible, false, props.onPopupVisibleChange);
+  const [value, onChange] = useControlled(props, 'value', props.onChange);
+  const [popupVisible, setPopupVisible] = useControlled(props, 'popupVisible', props.onPopupVisibleChange);
   const [hover, hoverAction] = useSwitch();
-  const [filterInput, setFilterInput] = useDefault(inputValue, defaultInputValue, onInputChange);
+  const [filterInput, setFilterInput] = useControlled(props, 'inputValue', onInputChange);
 
   const treeRef = useRef<ElementRef<typeof Tree>>();
 
@@ -294,18 +293,6 @@ const TreeSelect = forwardRef((props: TreeSelectProps, ref: React.Ref<HTMLDivEle
 });
 
 TreeSelect.displayName = 'TreeSelect';
-
-TreeSelect.defaultProps = {
-  clearable: false,
-  data: [],
-  disabled: false,
-  filterable: false,
-  loading: false,
-  max: 0,
-  multiple: false,
-  size: 'medium',
-  valueType: 'value',
-  minCollapsedNum: 0,
-};
+TreeSelect.defaultProps = treeSelectDefaultProps;
 
 export default TreeSelect;
